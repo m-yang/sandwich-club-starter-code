@@ -13,17 +13,34 @@ import com.udacity.sandwichclub.utils.JsonUtils;
 
 import org.json.JSONException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
 
+    @BindView(R.id.image_iv)
+    ImageView ingredientsIv;
+
+    @BindView(R.id.also_known_tv)
+    TextView alsoKnownTv;
+
+    @BindView(R.id.ingredients_tv)
+    TextView ingredientsTv;
+
+    @BindView(R.id.origin_tv)
+    TextView originTv;
+
+    @BindView(R.id.description_tv)
+    TextView descriptionTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        ImageView ingredientsIv = findViewById(R.id.image_iv);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -72,31 +89,20 @@ public class DetailActivity extends AppCompatActivity {
 
         String point = "\u25CF";
 
-        // set also known as view
-        TextView alsoKnownIv = (TextView) findViewById(R.id.also_known_tv);
-
         for (String name : sandwich.getAlsoKnownAs()) {
-            String str = alsoKnownIv.getText().toString();
-            alsoKnownIv.setText(str += (point + " " + name + "\n"));
+            String str = alsoKnownTv.getText().toString();
+            alsoKnownTv.setText(str += (point + " " + name + "\n"));
         }
-
-        // set ingredients view
-        TextView ingredientsIv = (TextView) findViewById(R.id.ingredients_tv);
 
         for (String ingredient : sandwich.getIngredients()) {
-            String str = ingredientsIv.getText().toString();
-            ingredientsIv.setText(str += (point + " " + ingredient + "\n"));
+            String str = ingredientsTv.getText().toString();
+            ingredientsTv.setText(str += (point + " " + ingredient + "\n"));
         }
 
-        // set origin view
-        TextView originIv = (TextView) findViewById(R.id.origin_tv);
         if(sandwich.getPlaceOfOrigin().length() > 0) {
-            originIv.setText(point + " " + sandwich.getPlaceOfOrigin() + "\n");
+            originTv.setText(point + " " + sandwich.getPlaceOfOrigin() + "\n");
         }
 
-        // set description view
-        TextView descriptionIv = (TextView) findViewById(R.id.description_tv);
-        descriptionIv.setText(sandwich.getDescription());
-
+        descriptionTv.setText(sandwich.getDescription());
     }
 }
